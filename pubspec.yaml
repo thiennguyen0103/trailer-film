@@ -23,17 +23,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  video_player: ^0.10.11+2
   font_awesome_flutter: ^8.8.1
   line_icons:
   chewie: ^0.9.7
   youtube_player_flutter:
-  dio: ^2.1.13
+  dio: ^3.0.10
   bloc: ^3.0.0
   rxdart: ^0.23.1
   eva_icons_flutter: ^2.0.0
   flutter_rating_bar: ^3.0.1+1
   page_indicator: ^0.2.0
+  http: ^0.12.2
+  tmdb_api: ^1.2.4
+  sliver_fab: "^1.0.0"
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

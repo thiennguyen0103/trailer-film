@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:trailerfilm_app/screens/home_screen.dart';
 import 'package:trailerfilm_app/signin.dart';
 
 void main() => runApp(new MyApp());
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: new SignIn(),
+      home: new HomeScreen(),
     );
   }
 }

@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trailerfilm_app/forgotpassword.dart';
-// import 'package:trailerfilm_app/pages/home_page.dart';
 import 'package:trailerfilm_app/screens/home_screen.dart';
 import 'package:trailerfilm_app/signup.dart';
-// import 'package:trailerfilm_app/pages/root_app.dart';
-// import 'dart:convert';
-// import 'package:http/http.dart' as http;
-
 
 class SignIn extends StatefulWidget {
   @override

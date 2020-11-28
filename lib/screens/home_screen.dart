@@ -1,7 +1,10 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:eva_icons_flutter/icon_data.dart';
 import 'package:flutter/material.dart';
 import 'package:trailerfilm_app/theme/colors.dart' as Style;
+import 'package:trailerfilm_app/widgets/best_movies.dart';
+import 'package:trailerfilm_app/widgets/persons.dart';
+import 'package:trailerfilm_app/widgets/genres.dart';
+import 'package:trailerfilm_app/widgets/now_playing.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -16,9 +19,22 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Style.Colors.mainColor,
         centerTitle: true,
-        leading: Icon(EvaIcons.menu2Outline, color: Style.white,),
-        title: Text("Trailer Film App"),
-
+        leading: Icon(EvaIcons.menu2Outline, color: Colors.white,),
+        title: Text("Discover"),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {},
+            icon: Icon(EvaIcons.searchOutline, color: Colors.white,)
+          )
+        ],
+      ),
+      body: ListView(
+        children: <Widget>[
+          NowPlaying(),
+          GenresScreen(),
+          PersonsList(),
+          BestMovies(),
+        ],
       ),
     );
   }

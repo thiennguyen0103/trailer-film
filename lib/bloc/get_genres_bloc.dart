@@ -1,10 +1,11 @@
-import 'package:rxdart/subjects.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:trailerfilm_app/model/genre_response.dart';
 import 'package:trailerfilm_app/repository/repository.dart';
 
 class GenresListBloc {
   final MovieRepository _repository = MovieRepository();
-  final BehaviorSubject<GenreResponse> _subject = BehaviorSubject<GenreResponse>();
+  final BehaviorSubject<GenreResponse> _subject =
+      BehaviorSubject<GenreResponse>();
 
   getGenres() async {
     GenreResponse response = await _repository.getGenres();
@@ -15,7 +16,7 @@ class GenresListBloc {
     _subject.close();
   }
 
-  BehaviorSubject<GenreResponse> get Subject => _subject;
+  BehaviorSubject<GenreResponse> get subject => _subject;
+  
 }
-
 final genresBloc = GenresListBloc();
