@@ -5,7 +5,7 @@ import 'package:trailerfilm_app/repository/repository.dart';
 class PersonsListBloc {
   final MovieRepository _repository = MovieRepository();
   final BehaviorSubject<PersonResponse> _subject =
-      BehaviorSubject<PersonResponse>();
+    BehaviorSubject<PersonResponse>();
 
   getPersons() async {
     PersonResponse response = await _repository.getPersons();
@@ -17,6 +17,6 @@ class PersonsListBloc {
   }
 
   BehaviorSubject<PersonResponse> get subject => _subject;
-  
 }
+
 final personsBloc = PersonsListBloc();

@@ -18,58 +18,59 @@ class GenreMovies extends StatefulWidget {
 class _GenreMoviesState extends State<GenreMovies> {
   final int genreId;
   _GenreMoviesState(this.genreId);
+
   @override
   void initState() {
     super.initState();
     moviesByGenreBloc..getMoviesByGenre(genreId);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<MovieResponse>(
-    stream: moviesByGenreBloc.subject.stream,
-    builder: (context, AsyncSnapshot<MovieResponse> snapshot) {
-      if (snapshot.hasData) {
-        if (snapshot.data.error != null && snapshot.data.error.length > 0) {
-          return _buildErrorWidget(snapshot.data.error);
-        }
-        return _buildHomeWidget(snapshot.data);
-      } else if (snapshot.hasError) {
-        return _buildErrorWidget(snapshot.error);
-      } else {
-        return _buildLoadingWidget();
-      }
-    },
-      );
+      stream: moviesByGenreBloc.subject.stream,
+      builder: (context, AsyncSnapshot<MovieResponse> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data.error != null && snapshot.data.error.length > 0) {
+            return _buildErrorWidget(snapshot.data.error);
+          }
+          return _buildHomeWidget(snapshot.data);
+        } else if (snapshot.hasError)
+          return _buildErrorWidget(snapshot.error);
+        else
+          return _buildLoadingWidget();
+      },
+    );
   }
 
   Widget _buildLoadingWidget() {
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 25.0,
-          width: 25.0,
-          child: CircularProgressIndicator(
-            valueColor:
-                new AlwaysStoppedAnimation<Color>(Colors.white),
-            strokeWidth: 4.0,
-          ),
-        )
-      ],
-    ));
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 25.0,
+            width: 25.0,
+            child: CircularProgressIndicator(
+              valueColor:
+                  new AlwaysStoppedAnimation<Color>(Colors.white),
+              strokeWidth: 4.0,
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Widget _buildErrorWidget(String error) {
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("Error occured: $error"),
-      ],
-    ));
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Error occured: $error"),
+        ],
+      ),
+    );
   }
 
   Widget _buildHomeWidget(MovieResponse data) {
@@ -77,7 +78,6 @@ class _GenreMoviesState extends State<GenreMovies> {
     if (movies.length == 0) {
       return Container(
         width: MediaQuery.of(context).size.width,
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

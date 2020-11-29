@@ -27,41 +27,41 @@ class _GenresScreenState extends State<GenresScreen>{
               return _buildErrorWidget(snapshot.data.error);
             }
             return _buildHomeWidget(snapshot.data);
-          } else if (snapshot.hasError) {
+          } else if (snapshot.hasError)
             return _buildErrorWidget(snapshot.error);
-          } else {
+          else
             return _buildLoadingWidget();
-          }
         },
       );
   }
 
   Widget _buildLoadingWidget() {
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 25.0,
-          width: 25.0,
-          child: CircularProgressIndicator(
-            valueColor:
-                new AlwaysStoppedAnimation<Color>(Colors.white),
-            strokeWidth: 4.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 25.0,
+            width: 25.0,
+            child: CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+              strokeWidth: 4.0,
+            ),
           ),
-        )
-      ],
-    ));
+        ],
+      ),
+    );
   }
 
   Widget _buildErrorWidget(String error) {
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("Error occured: $error"),
-      ],
-    ));
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Error occured: $error"),
+        ],
+      ),
+    );
   }
 
   Widget _buildHomeWidget(GenreResponse data) {

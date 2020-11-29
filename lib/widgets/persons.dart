@@ -25,60 +25,61 @@ class _PersonsListState extends State<PersonsList> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(left: 10.0, top: 20.0),
-          child: Text("TRENDING PERSONS ON THIS WEEK", style: TextStyle(
-            color: Style.Colors.titleColor,
-            fontWeight: FontWeight.w500,
-            fontSize: 12.0
-          ),),
+          child: Text("TRENDING PERSONS ON THIS WEEK",
+            style: TextStyle(
+              color: Style.Colors.titleColor,
+              fontWeight: FontWeight.w500,
+              fontSize: 12.0
+            ),
+          ),
         ),
-        SizedBox(
-          height: 5.0,
-        ),
+        SizedBox(height: 5.0,),
         StreamBuilder<PersonResponse>(
-        stream: personsBloc.subject.stream,
-        builder: (context, AsyncSnapshot<PersonResponse> snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data.error != null && snapshot.data.error.length > 0) {
-              return _buildErrorWidget(snapshot.data.error);
-            }
-            return _buildHomeWidget(snapshot.data);
-          } else if (snapshot.hasError) {
-            return _buildErrorWidget(snapshot.error);
-          } else {
-            return _buildLoadingWidget();
-          }
-        },
-      )
+          stream: personsBloc.subject.stream,
+          builder: (context, AsyncSnapshot<PersonResponse> snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data.error != null && snapshot.data.error.length > 0) {
+                return _buildErrorWidget(snapshot.data.error);
+              }
+              return _buildHomeWidget(snapshot.data);
+            } else if (snapshot.hasError)
+              return _buildErrorWidget(snapshot.error);
+            else
+              return _buildLoadingWidget();
+          },
+        ),
       ],
     );
   }
 
   Widget _buildLoadingWidget() {
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 25.0,
-          width: 25.0,
-          child: CircularProgressIndicator(
-            valueColor:
-                new AlwaysStoppedAnimation<Color>(Colors.white),
-            strokeWidth: 4.0,
-          ),
-        )
-      ],
-    ));
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 25.0,
+            width: 25.0,
+            child: CircularProgressIndicator(
+              valueColor:
+                  new AlwaysStoppedAnimation<Color>(Colors.white),
+              strokeWidth: 4.0,
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Widget _buildErrorWidget(String error) {
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("Error occured: $error"),
-      ],
-    ));
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Error occured: $error"),
+        ],
+      ),
+    );
   }
 
   Widget _buildHomeWidget(PersonResponse data) {
@@ -86,7 +87,6 @@ class _PersonsListState extends State<PersonsList> {
     if (persons.length == 0) {
       return Container(
         width: MediaQuery.of(context).size.width,
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,50 +127,50 @@ class _PersonsListState extends State<PersonsList> {
                     Hero(
                       tag: persons[index].id,
                       child: Container(
-                          width: 70.0,
-                          height: 70.0,
-                          decoration: new BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Style.Colors.secondColor
-                          ),
-                          child: Icon(FontAwesomeIcons.userAlt, color: Colors.white,),
-                          ),
+                        width: 70.0,
+                        height: 70.0,
+                        decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Style.Colors.secondColor
+                        ),
+                        child: Icon(FontAwesomeIcons.userAlt, color: Colors.white,),
+                      ),
                     ):
                     Hero(
                       tag: persons[index].id,
                       child: Container(
-                          width: 70.0,
-                          height: 70.0,
-                          decoration: new BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: new DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage("https://image.tmdb.org/t/p/w300/" + persons[index].profileImg)),
-                          )),
+                        width: 70.0,
+                        height: 70.0,
+                        decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: new DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage("https://image.tmdb.org/t/p/w300/" + persons[index].profileImg),
+                          ),
+                        ),
+                      ),
                     ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                    SizedBox(height: 10.0,),
                     Text(
                       persons[index].name,
                       maxLines: 2,
                       style: TextStyle(
                         height: 1.4,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 9.0),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 9.0
+                      ),
                     ),
-                    SizedBox(
-                      height: 3.0,
-                    ),
+                    SizedBox(height: 3.0,),
                     Text(
                       "Trending for " + persons[index].known,
                       maxLines: 2,
                       style: TextStyle(
                         height: 1.4,
-                          color: Style.Colors.titleColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 7.0),
+                        color: Style.Colors.titleColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 7.0
+                      ),
                     ),
                   ],
                 ),

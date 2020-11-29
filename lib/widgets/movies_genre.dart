@@ -7,7 +7,6 @@ import 'package:trailerfilm_app/model/movie_response.dart';
 import 'package:trailerfilm_app/theme/colors.dart' as Style;
 
 class GenreMovies extends StatefulWidget {
-  @override
   final int genreId;
   GenreMovies({Key key, @required this.genreId})
   : super(key: key);
@@ -29,18 +28,16 @@ class _GenreMoviesState extends State<GenreMovies> {
     return StreamBuilder<MovieResponse>(
       stream: moviesByGenreBloc.subject.stream,
       builder: (context, AsyncSnapshot<MovieResponse> snapshot) {
-        if(snapshot.hasData) {
-          if(snapshot.data.error != null && snapshot.data.error.length > 0) {
-            return _buildErrorWidget(snapshot.data.error);
+        if (snapshot.hasData) {
+            if (snapshot.data.error != null && snapshot.data.error.length > 0) {
+              return _buildErrorWidget(snapshot.data.error);
+            }
+            return _buildMoviesByGenreWidget(snapshot.data);
+          } else if (snapshot.hasError) {
+            return _buildErrorWidget(snapshot.error);
+          } else {
+            return _buildLoadingWidget();
           }
-          _buildMoviesByGenreWidget(snapshot.data);
-        }
-        else if(snapshot.hasError) {
-          return _buildErrorWidget(snapshot.error);
-        }
-        else {
-          return _buildLoadingWidget();
-        }
       },
     );
   }
@@ -114,7 +111,7 @@ class _GenreMoviesState extends State<GenreMovies> {
                       borderRadius: BorderRadius.all(Radius.circular(2.0)),
                       shape: BoxShape.rectangle,
                       image: DecorationImage(
-                        image: NetworkImage("" + movies[index].poster),
+                        image: NetworkImage("https//image.tmdb.org/t/p/w200/" + movies[index].poster),
                         fit: BoxFit.cover
                       ),
                     )
@@ -160,14 +157,14 @@ class _GenreMoviesState extends State<GenreMovies> {
                         onRatingUpdate: (rating) {
                           print(rating);
                         },
-                      )
+                      ),
                     ],
-                  )
+                  ),
                 ],
-              )
+              ),
             );
           },
-        )
+        ),
       );
     }
   }

@@ -22,15 +22,15 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       Stack(
         children: <Widget>[
           Center(
-          child: YoutubePlayer(
-    controller: controller,
-    showVideoProgressIndicator: true,
-),
-        ),
+            child: YoutubePlayer(
+              controller: controller,
+              showVideoProgressIndicator: true,
+            ),
+          ),
           Positioned(
             top: 40.0,
             right: 20.0,
-                      child: IconButton(icon: Icon(EvaIcons.closeCircle, color: Colors.white, size: 30.0,), onPressed: () {
+            child: IconButton(icon: Icon(EvaIcons.closeCircle, color: Colors.white, size: 30.0,), onPressed: () {
               Navigator.pop(context);
             }),
           )

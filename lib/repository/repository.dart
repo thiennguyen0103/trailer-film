@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:trailerfilm_app/model/person_response.dart';
 import 'package:trailerfilm_app/model/genre_response.dart';
 import 'package:trailerfilm_app/model/movie_response.dart';
-import 'package:http/http.dart' as http;
 import 'package:trailerfilm_app/model/video_response.dart';
 
 class MovieRepository {

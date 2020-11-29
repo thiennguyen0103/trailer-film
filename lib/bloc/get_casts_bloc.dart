@@ -6,21 +6,21 @@ import 'package:trailerfilm_app/repository/repository.dart';
 class CastsBloc {
   final MovieRepository _repository = MovieRepository();
   final BehaviorSubject<CastResponse> _subject =
-      BehaviorSubject<CastResponse>();
+    BehaviorSubject<CastResponse> ();
 
   getCasts(int id) async {
     CastResponse response = await _repository.getCasts(id);
     _subject.sink.add(response);
   }
 
-  void drainStream(){ _subject.value = null; }
+  void drainStream() { _subject.value = null; }
   @mustCallSuper
   void dispose() async{
     await _subject.drain();
     _subject.close();
   }
-
-  BehaviorSubject<CastResponse> get subject => _subject;
   
+  BehaviorSubject<CastResponse> get subject => _subject;
 }
+
 final castsBloc = CastsBloc();
