@@ -4,6 +4,7 @@ import 'package:page_indicator/page_indicator.dart';
 import 'package:trailerfilm_app/bloc/get_now_playing_bloc.dart';
 import 'package:trailerfilm_app/model/movie.dart';
 import 'package:trailerfilm_app/model/movie_response.dart';
+import 'package:trailerfilm_app/screens/detail_screen.dart';
 import 'package:trailerfilm_app/theme/colors.dart' as Style;
 
 class NowPlaying extends StatefulWidget {
@@ -106,7 +107,12 @@ class _NowPlayingState extends State<NowPlaying> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-          
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MovieDetailScreen(movie: movies[index]),
+                    ),
+                  );
                 },
                 child: Stack(
                   children: <Widget>[
