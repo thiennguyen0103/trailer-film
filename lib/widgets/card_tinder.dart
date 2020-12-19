@@ -1,5 +1,7 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trailerfilm_app/bloc/get_now_playing_bloc.dart';
@@ -48,7 +50,7 @@ class _CardTinderState extends State<CardTinder> {
             width: 25.0,
             child: CircularProgressIndicator(
               valueColor:
-                  new AlwaysStoppedAnimation<Color>(Colors.white),
+                new AlwaysStoppedAnimation<Color>(Colors.white),
               strokeWidth: 4.0,
             ),
           )
@@ -148,14 +150,32 @@ class _CardTinderState extends State<CardTinder> {
                               height: 1.5,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 18.0),
+                              fontSize: 18.0,
                             ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(width: 5.0),
+                          RatingBar.builder(
+                            itemSize: 10.0,
+                            initialRating: movies[index].rating / 2,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                            itemBuilder: (context, _) => Icon(
+                              EvaIcons.star,
+                              color: Style.Colors.secondColor,
+                            ),
+                            onRatingUpdate: (rating) {
+                              print(rating);
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

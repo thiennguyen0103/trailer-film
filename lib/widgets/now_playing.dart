@@ -49,7 +49,7 @@ class _NowPlayingState extends State<NowPlaying> {
             width: 25.0,
             child: CircularProgressIndicator(
               valueColor:
-                  new AlwaysStoppedAnimation<Color>(Colors.white),
+                new AlwaysStoppedAnimation<Color>(Colors.white),
               strokeWidth: 4.0,
             ),
           )
