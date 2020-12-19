@@ -11,7 +11,6 @@ class _ForgotPassword extends State<ForgotPassword> {
   @override
   
   Widget build(BuildContext context) {
-    // TODO: implement build
     final logo = Hero(
       tag: 'hero', 
       child: CircleAvatar(

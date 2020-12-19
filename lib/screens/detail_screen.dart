@@ -169,7 +169,6 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                       Casts(
                         id: movie.id,
                       ),
-                      SimilarMovies(id: movie.id)
                     ]
                   )
                 )

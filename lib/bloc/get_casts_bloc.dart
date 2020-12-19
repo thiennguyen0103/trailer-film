@@ -12,7 +12,6 @@ class CastsBloc {
     CastResponse response = await _repository.getCasts(id);
     _subject.sink.add(response);
   }
-
   void drainStream() { _subject.value = null; }
   @mustCallSuper
   void dispose() async{

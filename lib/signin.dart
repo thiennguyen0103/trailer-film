@@ -10,7 +10,6 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignIn extends State<SignIn> {
-  String _password;
   bool _obscureTextLogin = true;
 
   FocusNode myFocusNodeEmailLogin;
