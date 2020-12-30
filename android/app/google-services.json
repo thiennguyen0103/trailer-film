@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "920519244904",
+    "firebase_url": "https://user-db-d54ae.firebaseio.com",
+    "project_id": "user-db-d54ae",
+    "storage_bucket": "user-db-d54ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920519244904:android:b4ca56d03bcc094aadcfdd",
+        "android_client_info": {
+          "package_name": "vn.edu.uit.trailerfilm_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920519244904-vujuha10mg49p8n3eh690q8imna7mm55.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-OO4BMs5B_bANPyXsw4WIYrC3_E5eH48"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920519244904-vujuha10mg49p8n3eh690q8imna7mm55.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

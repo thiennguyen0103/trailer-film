@@ -1,11 +1,11 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:trailerfilm_app/theme/colors.dart' as Style;
-import 'package:trailerfilm_app/widgets/best_movies.dart';
+import 'package:trailerfilm_app/widgets/find_movies.dart';
+import 'package:trailerfilm_app/widgets/top_rated_movie.dart';
 import 'package:trailerfilm_app/widgets/card_tinder.dart';
-import 'package:trailerfilm_app/widgets/persons.dart';
-import 'package:trailerfilm_app/widgets/genres.dart';
-import 'package:trailerfilm_app/widgets/now_playing.dart';
+import 'package:trailerfilm_app/widgets/check_login.dart';
+import 'package:trailerfilm_app/app.dart' as globals;
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -15,24 +15,38 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  String _title;
+
+  @override
+  initState() {
+    _title = 'Home';
+  }
+
   final List<Widget> _widgetOptions = <Widget> [
     CardTinder(),
-    Text(
-      'Raking'
-    ),
-    Text(
-      'Find'
-    ),
+    BestMovies(),
+    FindMovies(),
     Text(
       'Notification'
     ),
-    Text(
-      'User'
-    ),
+    CheckLogin(),
   ];
+  
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      switch(index) { 
+        case 0: { _title = 'Home'; } 
+        break; 
+        case 1: { _title = 'Top Rated'; } 
+        break;
+        case 2: { _title = 'Find'; } 
+        break;
+        case 3: { _title = 'Notification'; } 
+        break;
+        case 4: { _title = 'Account'; } 
+        break; 
+      } 
     });
   }
 
@@ -41,29 +55,46 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Style.Colors.mainColor,
       appBar: AppBar(
+        title: Text(
+          _title,
+          style: TextStyle(
+            color: Style.Colors.titleColor,
+          ),
+        ),
         backgroundColor: Style.Colors.mainColor,
         centerTitle: true,
-        leading: Icon(EvaIcons.menu2Outline, color: Colors.white,),
-        title: Text("Discover"),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: Icon(EvaIcons.settings, color: Colors.white,)
-          )
-        ],
+        elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
+      ),
+      drawer: new Drawer(
+        child: new ListView(
+          children: <Widget>[
+            new UserAccountsDrawerHeader(
+              accountName: new Text("${globals.username}"),
+              accountEmail: new Text("thienhenry0103@gmail.com"),
+              currentAccountPicture: new Container(
+                decoration: new BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage("${globals.avatar}"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            new ListTile(
+              title: Text('Favorite')
+            ),
+            new ListTile(
+              title: Text('Settings')
+            ),
+          ],
+        ),
       ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: _widgetOptions,
+        ),
       ),
-      // body: ListView(
-      //   children: <Widget>[
-      //     // CardTinder(),
-      //     // NowPlaying(),
-      //     // GenresScreen(),
-      //     // PersonsList(),
-      //     // BestMovies(),
-      //   ],
-      // ),
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Style.Colors.mainColor,
@@ -81,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.assessment_rounded),
-              label: 'Ranking',
+              label: 'Top Rated',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.search_rounded),

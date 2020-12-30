@@ -1,16 +1,67 @@
+// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:trailerfilm_app/forgotpassword.dart';
 import 'package:trailerfilm_app/screens/home_screen.dart';
 import 'package:trailerfilm_app/signup.dart';
+import 'package:trailerfilm_app/app.dart' as globals;
+// import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+// import 'package:firebase_core/firebase_core.dart';
+import 'package:http/http.dart' as http;
 
 class SignIn extends StatefulWidget {
   @override
   _SignIn createState() => _SignIn();
 }
 
+enum FormType {
+  login,
+  register
+}
+
 class _SignIn extends State<SignIn> {
   bool _obscureTextLogin = true;
+  bool _isloggedIn = false;
+  bool _isLoading = false;
+  var profileData;
+  Map user;
+
+
+  String _email;
+  String _password;
+  final formKey = new GlobalKey<FormState>();
+
+  FormType _formType = FormType.login;
+
+  bool validateAndSave() {
+    final form = formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      print('Form is valid. Email $_email, password $_password');
+      return true;
+    }
+    return false;
+  }
+
+  void validateAndSubmit() async {
+    if (validateAndSave()) {
+      try{
+        FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user;
+        print('Signed in: ${user.uid}');
+      }
+      catch(e) {
+        print('Error: $e');
+      }
+    }
+  }
+
+  final facebooklogin = FacebookLogin();
 
   FocusNode myFocusNodeEmailLogin;
   FocusNode myFocusNodePasswordLogin;
@@ -24,11 +75,81 @@ class _SignIn extends State<SignIn> {
     });
   }
 
+  void onLoginStatusChanged(bool isLoggedIn, {profileData}) {
+    setState(() {
+      _isLoading = false;
+      this._isloggedIn = isLoggedIn;
+      this.profileData = profileData;
+    });
+  }
+
+  void moveToRegister() {
+    setState(() {
+      _formType = FormType.register;
+    });
+  }
+
+  _logonwithfb() async {
+    final result = await facebooklogin.logIn(['email']);
+    switch( result.status){
+      case FacebookLoginStatus.loggedIn:
+      final token =result.accessToken.token;
+      final graphResponse = await http.get('https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=${token}');
+      final profile = jsonDecode(graphResponse.body);
+      globals.avatar = profileData['picture']['data']['url'];
+      globals.username = profileData['name'];
+      setState(() {
+        user =profile;
+        _isloggedIn =true;
+        globals.isLoggedIn = true;
+      });
+      break;
+      case FacebookLoginStatus.cancelledByUser:
+      setState(() {
+        _isloggedIn = false;
+      }
+      );
+      break;
+      case FacebookLoginStatus.error:
+      setState(() {
+        _isloggedIn = false;
+        globals.isLoggedIn = false;
+      });
+    }
+  }
+
+  _logout(){
+    facebooklogin.logOut();
+    setState(() {
+      _isloggedIn= false;
+      globals.isLoggedIn = false;
+    });
+  }
+
+  void initiateFacebookLogin() async {
+    setState(() {
+      _isLoading = true;
+    });
+    var facebookLoginResult = await facebooklogin.logIn(['email']);
+    switch (facebookLoginResult.status) {
+      case FacebookLoginStatus.error:
+        onLoginStatusChanged(false);
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        onLoginStatusChanged(false);
+        break;
+      case FacebookLoginStatus.loggedIn:
+        var graphResponse = await http.get(
+          'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${facebookLoginResult.accessToken.token}');
+        var profile = json.decode(graphResponse.body);
+        onLoginStatusChanged(true, profileData: profile);
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-
     final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
     final logo = Hero(
       tag: 'hero', 
       child: CircleAvatar(
@@ -48,6 +169,8 @@ class _SignIn extends State<SignIn> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
         prefixIcon: Icon(Icons.email),
       ),
+      validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
+      onSaved: (value) => _email = value,
     );
 
     final password = TextFormField(
@@ -67,6 +190,8 @@ class _SignIn extends State<SignIn> {
           onPressed: this._toggleLogin,
           ),
         ),
+        validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
+        onSaved: (value) => _password = value,
       );
     
     final loginButton = new RaisedButton(
@@ -76,10 +201,11 @@ class _SignIn extends State<SignIn> {
       color: Theme.of(context).accentColor,
       elevation: 10.0,
       splashColor: Colors.blueGrey,
-      onPressed: () {
-        // Perform some action
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      },
+      onPressed: validateAndSubmit,
+      // onPressed: () {
+      //   // Perform some action
+      //   // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      // },
     );
 
     final forgotLabel = FlatButton(
@@ -100,32 +226,14 @@ class _SignIn extends State<SignIn> {
           MaterialPageRoute(builder: (context) => SignUp())
         );
       }, 
+      // onPressed: moveToRegister,
       child: Text("Sign Up",
         style: TextStyle(color: Colors.blue),
       ),
     );
 
-    void showInSnackBar(String value) {
-      FocusScope.of(context).requestFocus(new FocusNode());
-      _scaffoldKey.currentState?.removeCurrentSnackBar();
-      _scaffoldKey.currentState.showSnackBar(new SnackBar(
-        content: new Text(
-          value,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16.0,
-            fontFamily: "WorkSansSemiBold"
-          ),
-        ),
-        backgroundColor: Colors.blue,
-        duration: Duration(seconds: 3),
-      ));
-    }
-    
     return new Scaffold(
       backgroundColor: Colors.white,
-      key: _scaffoldKey,
       body: Center(
         child: ListView(
           shrinkWrap: true,
@@ -133,9 +241,16 @@ class _SignIn extends State<SignIn> {
           children: <Widget>[
             logo,
             SizedBox(height: 45.0),
-            email,
-            SizedBox(height: 10.0),
-            password,
+            Form(
+              key: formKey,
+              child: new Column(
+                children: <Widget>[
+                  email,
+                  SizedBox(height: 5.0),
+                  password,
+                ],
+              ),
+            ),
             Container(
               alignment: Alignment(1.0, 0.0),
               child: forgotLabel,
@@ -205,7 +320,13 @@ class _SignIn extends State<SignIn> {
                 Padding(
                   padding: EdgeInsets.only(top: 10.0, right: 40.0),
                   child: GestureDetector(
-                    onTap: () => showInSnackBar("Facebook button pressed"),
+                    onTap: () {
+                      _logonwithfb();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (BuildContext context) => HomeScreen())
+                      );
+                    },
                     child: Container(
                       padding: const EdgeInsets.all(15.0),
                       decoration: new BoxDecoration(
@@ -222,7 +343,13 @@ class _SignIn extends State<SignIn> {
                 Padding(
                   padding: EdgeInsets.only(top: 10.0),
                   child: GestureDetector(
-                    onTap: () => showInSnackBar("Google button pressed"),
+                    // onTap: () {
+                    //   _logonwithfb();
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(builder: (BuildContext context) => HomeScreen())
+                    //   );
+                    // },
                     child: Container(
                       padding: const EdgeInsets.all(15.0),
                       decoration: new BoxDecoration(
@@ -244,3 +371,4 @@ class _SignIn extends State<SignIn> {
     );
   }
 }
+

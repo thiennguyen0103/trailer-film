@@ -24,19 +24,21 @@ class _CardTinderState extends State<CardTinder> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<MovieResponse>(
-      stream: nowPlayingMoviesBloc.subject.stream,
-      builder: (context, AsyncSnapshot<MovieResponse> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data.error != null && snapshot.data.error.length > 0) {
-            return _buildErrorWidget(snapshot.data.error);
-          }
-          return _buildHomeWidget(snapshot.data);
-        } else if (snapshot.hasError)
-          return _buildErrorWidget(snapshot.error);
-        else
-          return _buildLoadingWidget();
-      },
+    return Center(
+      child: StreamBuilder<MovieResponse>(
+        stream: nowPlayingMoviesBloc.subject.stream,
+        builder: (context, AsyncSnapshot<MovieResponse> snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data.error != null && snapshot.data.error.length > 0) {
+              return _buildErrorWidget(snapshot.data.error);
+            }
+            return _buildHomeWidget(snapshot.data);
+          } else if (snapshot.hasError)
+            return _buildErrorWidget(snapshot.error);
+          else
+            return _buildLoadingWidget();
+        },
+      ),
     );
   }
 

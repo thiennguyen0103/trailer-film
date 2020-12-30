@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -8,6 +9,8 @@ class SignUp extends StatefulWidget {
 class _SignUp extends State<SignUp> {
   bool _obscureTextSignup = true;
   bool _obscureTextSignupConfirm = true;
+  String _email;
+  String _password;
 
   final FocusNode myFocusNodePassword = FocusNode();
   final FocusNode myFocusNodeEmail = FocusNode();
@@ -42,15 +45,14 @@ class _SignUp extends State<SignUp> {
     );
 
     final registerEmail = TextFormField(
-      focusNode: this.myFocusNodeEmail,
-      controller: this.signupEmailController,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         hintText: 'Enter your email...',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
         prefixIcon: Icon(Icons.email),
-      )
+      ),
+      onSaved: (value) => _email = value,
     );
 
     final registerUsername = TextFormField(
@@ -62,11 +64,10 @@ class _SignUp extends State<SignUp> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
         prefixIcon: Icon(Icons.person),
       ),
+      
     );
 
     final registerPassword = TextFormField(
-      focusNode: this.myFocusNodePassword,
-      controller: this.signupPasswordController,
       obscureText: this._obscureTextSignup,
       decoration: InputDecoration(
         hintText: 'Enter your password...',
@@ -81,11 +82,10 @@ class _SignUp extends State<SignUp> {
           onPressed: this._toggleSignup,
         ),
       ),
+      onSaved: (value) => _password = value,
     );
 
     final confirmPassword = TextFormField(
-      focusNode: this.myFocusNodePassword,
-      controller: this.signupConfirmPasswordController,
       decoration: InputDecoration(
         hintText: 'Comfirm your password...',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -110,6 +110,7 @@ class _SignUp extends State<SignUp> {
       splashColor: Colors.blueGrey,
       onPressed: () {
         // Perform some action
+        FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
       },
     );
 
