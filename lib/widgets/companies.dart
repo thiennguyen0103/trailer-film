@@ -8,6 +8,7 @@ import 'package:trailerfilm_app/theme/colors.dart' as Style;
 class Companies extends StatefulWidget {
   final int id;
   Companies({Key key, @required this.id}) : super(key: key);
+  
   @override
   _CompaniesState createState() => _CompaniesState(id);
 }

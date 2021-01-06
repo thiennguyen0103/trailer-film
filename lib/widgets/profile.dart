@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   void onLoginStatusChanged(bool isLoggedIn, {profileData}) {
     setState(() {
       isLoading = false;
-      globals.isLoggedIn = isLoggedIn;
+      isLoggedIn = isLoggedIn;
       this.profileData = profileData;
     });
   }

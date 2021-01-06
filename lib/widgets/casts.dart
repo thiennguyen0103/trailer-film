@@ -4,6 +4,7 @@ import 'package:trailerfilm_app/bloc/get_casts_bloc.dart';
 import 'package:trailerfilm_app/model/cast.dart';
 import 'package:trailerfilm_app/model/cast_response.dart';
 import 'package:trailerfilm_app/theme/colors.dart' as Style;
+import 'package:trailerfilm_app/widgets/person_detail.dart';
 
 class Casts extends StatefulWidget {
   final int id;
@@ -127,7 +128,12 @@ class _CastsState extends State<Casts> {
               width: 100.0,
               child: GestureDetector(
                 onTap: () {
-                  
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => PersonDetail(person: casts[index].id),
+                  //   ),
+                  // );
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

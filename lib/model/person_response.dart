@@ -1,16 +1,15 @@
 import 'package:trailerfilm_app/model/person.dart';
 
 class PersonResponse {
-  final List<Person> persons;
+  final Person person;
   final String error;
 
-  PersonResponse(this.persons, this.error);
+  PersonResponse(this.person, this.error);
 
   PersonResponse.fromJson(Map<String, dynamic> json)
-  : persons = (json["results"] as List).map((i) => new Person.fromJson(i)).toList(),
+  : person = Person.fromJson(json),
     error = "";
-
   PersonResponse.withError(String errorValue)
-  : persons = List(),
+  : person = Person(null, null, "", "", "", "", "", ""),
     error = errorValue;
 }

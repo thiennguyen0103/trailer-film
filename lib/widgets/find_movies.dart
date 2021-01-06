@@ -10,6 +10,7 @@ class FindMovies extends StatefulWidget {
 class _FindMoviesState extends State<FindMovies> {
   TextEditingController searchTextController = new TextEditingController();
   String searchText = "";
+  ResultMovies resultMovies;
 
   @override
   void dispose() {
@@ -33,10 +34,13 @@ class _FindMoviesState extends State<FindMovies> {
               IconButton(
                 icon: Icon(Icons.search),
                 tooltip: 'Search Movies',
-                onPressed: () {
-                  setState(() {
-                    searchText = searchTextController.text;
+                onPressed: () async {
+                  searchText = searchTextController.text;
+                  await print(searchText);
+                    resultMovies = ResultMovies(query: searchText);
                     SystemChannels.textInput.invokeMethod('TextInput.hide');
+                  setState(() {
+                    
                   });
                 },
               ),
@@ -44,7 +48,7 @@ class _FindMoviesState extends State<FindMovies> {
           padding: EdgeInsets.all(10),
           ),
           if (searchText.length > 0)
-            ResultMovies(query: searchText),
+            resultMovies,
         ],
       )
     );

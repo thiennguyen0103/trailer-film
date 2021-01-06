@@ -1,7 +1,5 @@
-import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:trailerfilm_app/utils/custom_clipper.dart';
 import 'package:trailerfilm_app/widgets/card_item.dart';
 import 'package:trailerfilm_app/widgets/stack_container.dart';
 

@@ -9,7 +9,6 @@ import 'package:trailerfilm_app/model/video_response.dart';
 import 'package:trailerfilm_app/screens/video_player.dart';
 import 'package:trailerfilm_app/widgets/casts.dart';
 import 'package:trailerfilm_app/widgets/movie_info.dart';
-import 'package:trailerfilm_app/widgets/similar_movies.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:trailerfilm_app/theme/colors.dart' as Style;
 

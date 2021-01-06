@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 import 'package:trailerfilm_app/forgotpassword.dart';
+import 'package:trailerfilm_app/model/auth.dart';
 import 'package:trailerfilm_app/screens/home_screen.dart';
 import 'package:trailerfilm_app/signup.dart';
 import 'package:trailerfilm_app/app.dart' as globals;
@@ -31,14 +32,17 @@ class _SignIn extends State<SignIn> {
   bool _isLoading = false;
   var profileData;
   Map user;
-
+  BaseAuth baseAuth;
 
   String _email;
+  String _userName = "Thien Nguyen";
+  String _avatar;
   String _password;
   final formKey = new GlobalKey<FormState>();
 
   FormType _formType = FormType.login;
 
+  
   bool validateAndSave() {
     final form = formKey.currentState;
     if (form.validate()) {
@@ -83,42 +87,34 @@ class _SignIn extends State<SignIn> {
     });
   }
 
-  void moveToRegister() {
-    setState(() {
-      _formType = FormType.register;
-    });
-  }
-
-  _logonwithfb() async {
+  Future<void> _logonwithfb() async {
     final result = await facebooklogin.logIn(['email']);
     switch( result.status){
       case FacebookLoginStatus.loggedIn:
-      final token =result.accessToken.token;
-      final graphResponse = await http.get('https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=${token}');
-      final profile = jsonDecode(graphResponse.body);
-      globals.avatar = profileData['picture']['data']['url'];
-      globals.username = profileData['name'];
-      setState(() {
-        user =profile;
-        _isloggedIn =true;
-        globals.isLoggedIn = true;
-      });
-      break;
+        final token =result.accessToken.token;
+        final graphResponse = await http.get('https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=${token}');
+        final profile = jsonDecode(graphResponse.body);
+        print("show " + "${profile}");
+        user = profile;
+          // _avatar = profileData['picture']['data']['url'].toString();
+          // _userName = profileData['name'].toString();
+          // _isloggedIn =true;
+          // print(_userName);
+        break;
       case FacebookLoginStatus.cancelledByUser:
-      setState(() {
-        _isloggedIn = false;
-      }
-      );
-      break;
+        setState(() {
+          _isloggedIn = false;
+        }
+        );
+        break;
       case FacebookLoginStatus.error:
-      setState(() {
-        _isloggedIn = false;
-        globals.isLoggedIn = false;
-      });
+        setState(() {
+          _isloggedIn = false;
+        });
     }
   }
 
-  _logout(){
+  Future<void> _logout(){
     facebooklogin.logOut();
     setState(() {
       _isloggedIn= false;
@@ -143,6 +139,9 @@ class _SignIn extends State<SignIn> {
           'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${facebookLoginResult.accessToken.token}');
         var profile = json.decode(graphResponse.body);
         onLoginStatusChanged(true, profileData: profile);
+        _userName = profileData['name'];
+        print("username " + "${_userName}");
+        _avatar = profileData['picture']['data']['url'];
         break;
     }
   }
@@ -322,10 +321,11 @@ class _SignIn extends State<SignIn> {
                   child: GestureDetector(
                     onTap: () {
                       _logonwithfb();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (BuildContext context) => HomeScreen())
-                      );
+                      if (!_isloggedIn)
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (BuildContext context) => HomeScreen()),
+                        );
                     },
                     child: Container(
                       padding: const EdgeInsets.all(15.0),
@@ -343,13 +343,13 @@ class _SignIn extends State<SignIn> {
                 Padding(
                   padding: EdgeInsets.only(top: 10.0),
                   child: GestureDetector(
-                    // onTap: () {
-                    //   _logonwithfb();
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(builder: (BuildContext context) => HomeScreen())
-                    //   );
-                    // },
+                    onTap: () {
+                      _logonwithfb();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (BuildContext context) => HomeScreen())
+                      );
+                    },
                     child: Container(
                       padding: const EdgeInsets.all(15.0),
                       decoration: new BoxDecoration(

@@ -1,14 +1,14 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:trailerfilm_app/model/person_response.dart';
+import 'package:trailerfilm_app/model/persons_response.dart';
 import 'package:trailerfilm_app/repository/repository.dart';
 
 class PersonsListBloc {
   final MovieRepository _repository = MovieRepository();
-  final BehaviorSubject<PersonResponse> _subject =
-    BehaviorSubject<PersonResponse>();
+  final BehaviorSubject<PersonsResponse> _subject =
+    BehaviorSubject<PersonsResponse>();
 
   getPersons() async {
-    PersonResponse response = await _repository.getPersons();
+    PersonsResponse response = await _repository.getPersons();
     _subject.sink.add(response);
   }
 
@@ -16,7 +16,7 @@ class PersonsListBloc {
     _subject.close();
   }
 
-  BehaviorSubject<PersonResponse> get subject => _subject;
+  BehaviorSubject<PersonsResponse> get subject => _subject;
 }
 
 final personsBloc = PersonsListBloc();

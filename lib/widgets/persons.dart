@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trailerfilm_app/bloc/get_persons_bloc.dart';
 import 'package:trailerfilm_app/model/person.dart';
-import 'package:trailerfilm_app/model/person_response.dart';
+import 'package:trailerfilm_app/model/persons_response.dart';
 import 'package:trailerfilm_app/theme/colors.dart' as Style;
 
 class PersonsList extends StatefulWidget {
@@ -34,9 +34,9 @@ class _PersonsListState extends State<PersonsList> {
           ),
         ),
         SizedBox(height: 5.0,),
-        StreamBuilder<PersonResponse>(
+        StreamBuilder<PersonsResponse>(
           stream: personsBloc.subject.stream,
-          builder: (context, AsyncSnapshot<PersonResponse> snapshot) {
+          builder: (context, AsyncSnapshot<PersonsResponse> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data.error != null && snapshot.data.error.length > 0) {
                 return _buildErrorWidget(snapshot.data.error);
@@ -82,7 +82,7 @@ class _PersonsListState extends State<PersonsList> {
     );
   }
 
-  Widget _buildHomeWidget(PersonResponse data) {
+  Widget _buildHomeWidget(PersonsResponse data) {
     List<Person> persons = data.persons;
     if (persons.length == 0) {
       return Container(

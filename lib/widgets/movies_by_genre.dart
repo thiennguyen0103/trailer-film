@@ -177,24 +177,23 @@ class _GenreMoviesState extends State<GenreMovies> {
                           width: 5.0,
                         ),
                         RatingBar.builder(
-                      itemSize: 8.0,
-   initialRating: movies[index].rating / 2,
-   minRating: 1,
-   direction: Axis.horizontal,
-   allowHalfRating: true,
-   itemCount: 5,
-   itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-   itemBuilder: (context, _) => Icon(
-     EvaIcons.star,
-     color: Style.Colors.secondColor,
-   ),
-   onRatingUpdate: (rating) {
-     print(rating);
-   },
-)
+                          itemSize: 8.0,
+                          initialRating: movies[index].rating / 2,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                          itemBuilder: (context, _) => Icon(
+                            EvaIcons.star,
+                            color: Style.Colors.secondColor,
+                          ),
+                          onRatingUpdate: (rating) {
+                            print(rating);
+                          },
+                        )
                       ],
                     )
-                    
                   ],
                 ),
               ),
