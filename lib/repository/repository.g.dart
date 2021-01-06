@@ -22,7 +22,7 @@ class _SearchMovies extends SearchMovies {
   Future<MovieResponse> search(String query) async{
     var params = {
       "api_key": apiKey,
-      "language": "en-US",
+      "language": "vi",
       "page": 1,
       "query": query,
     };

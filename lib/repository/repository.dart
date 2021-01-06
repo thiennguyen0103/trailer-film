@@ -26,7 +26,7 @@ class MovieRepository {
   Future<MovieResponse> getMovies() async {
     var params = {
       "api_key": apiKey,
-      "language": "en-US",
+      "language": "vi",
       "page": 1
     };
     try {
@@ -39,7 +39,7 @@ class MovieRepository {
   }
 
   Future<MovieResponse> getPlayingMovies() async {
-    var params = {"api_key": apiKey, "language": "en-US", "page": 1};
+    var params = {"api_key": apiKey, "language": "vi", "page": 1};
     try {
       Response response =
           await _dio.get(getPlayingUrl, queryParameters: params);
@@ -51,7 +51,7 @@ class MovieRepository {
   }
 
   Future<GenreResponse> getGenres() async {
-    var params = {"api_key": apiKey, "language": "en-US"};
+    var params = {"api_key": apiKey, "language": "vi"};
     try {
       Response response = await _dio.get(getGenresUrl, queryParameters: params);
       return GenreResponse.fromJson(response.data);
@@ -63,7 +63,7 @@ class MovieRepository {
 
 
   Future<PersonsResponse> getPersons() async {
-    var params = {"api_key": apiKey};
+    var params = {"api_key": apiKey, "language": "vi",};
     try {
       Response response = await _dio.get(getPersonsUrl, queryParameters: params);
       return PersonsResponse.fromJson(response.data);
@@ -76,7 +76,7 @@ class MovieRepository {
   Future<PersonResponse> getPerson(int id) async {
     var params = {
       "api_key": apiKey,
-      "language": "en-US",
+      "language": "vi",
     };
     try {
       Response response = await _dio.get(getPersonUrl + "/$id", queryParameters: params);
@@ -89,7 +89,7 @@ class MovieRepository {
   }
 
   Future<MovieResponse> getMovieByGenre(int id) async {
-    var params = {"api_key": apiKey, "language": "en-US", "page": 1, "with_genres": id};
+    var params = {"api_key": apiKey, "language": "vi", "page": 1, "with_genres": id};
     try {
       Response response = await _dio.get(getMoviesUrl, queryParameters: params);
       return MovieResponse.fromJson(response.data);
@@ -102,7 +102,7 @@ class MovieRepository {
   Future<MovieDetailResponse> getMovieDetail(int id) async {
     var params = {
       "api_key": apiKey,
-      "language": "en-US"
+      "language": "vi"
     };
     try {
       Response response = await _dio.get(movieUrl + "/$id", queryParameters: params);
@@ -116,7 +116,7 @@ class MovieRepository {
   Future<VideoResponse> getMovieVideos(int id) async {
     var params = {
       "api_key": apiKey,
-      "language": "en-US"
+      "language": "vi"
     };
     try {
       Response response = await _dio.get(movieUrl + "/$id" + "/videos", queryParameters: params);
@@ -130,7 +130,7 @@ class MovieRepository {
   Future<MovieResponse> getSimilarMovies(int id) async {
     var params = {
       "api_key": apiKey,
-      "language": "en-US"
+      "language": "vi"
     };
     try {
       Response response = await _dio.get(movieUrl + "/$id" + "/similar", queryParameters: params);
@@ -144,7 +144,7 @@ class MovieRepository {
   Future<CastResponse> getCasts(int id) async {
     var params = {
       "api_key": apiKey,
-      "language": "en-US"
+      "language": "vi"
     };
     try {
       Response response = await _dio.get(movieUrl + "/$id" + "/credits", queryParameters: params);
@@ -157,7 +157,7 @@ class MovieRepository {
   Future<MovieResponse> getResultMovies(String query) async {
     var params = {
       "api_key": apiKey,
-      "language": "en-US",
+      "language": "vi",
       "page": 1,
       "query": query,
     };

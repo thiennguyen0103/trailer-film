@@ -128,10 +128,12 @@ class _CastsState extends State<Casts> {
               width: 100.0,
               child: GestureDetector(
                 onTap: () {
+                  // int id = casts[index].id;
+                  // print("ma id: " + "$id");
                   // Navigator.push(
                   //   context,
                   //   MaterialPageRoute(
-                  //     builder: (context) => PersonDetail(person: casts[index].id),
+                  //     builder: (context) => PersonDetail(id: id),
                   //   ),
                   // );
                 },
